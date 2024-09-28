@@ -1,20 +1,22 @@
 'use client'
-import Pagina from "@/app/components/Pagina";
-import Link from "next/link";
-import { Table } from "react-bootstrap";
+
+
+import Link from "next/link"
+import { Table } from "react-bootstrap"
 import { FaPlusCircle } from "react-icons/fa";
+import Pagina from "../components/Pagina";
 
 export default function Page() {
 
-    
+    const empresas = JSON.parse(localStorage.getItem('empresas')) || []
 
     return (
         <Pagina titulo="Empresas">
 
-            <Link href="/empresas/create"
-                className="btn btn-primary mb-3 mt-3" >
+            <Link href="/empresas/create" className="btn btn-primary mb-3 mt-3">
                 <FaPlusCircle /> Novo
             </Link>
+
             <Table striped bordered hover>
                 <thead>
                     <tr>
@@ -24,26 +26,19 @@ export default function Page() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Gol</td>
-                        
-                        
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Latam</td>
-                        
-                        
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Azul</td>
-                        
-                       
-                    </tr>
+                    {empresas.map(item => (
+                        <tr>
+                            <td>1</td>
+                            <td>{item.nome}</td>
+                            <td>
+                                <a href={item.site} target="_blank">
+                                    <img src={item.logo} width={100} />
+                                </a>
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
             </Table>
         </Pagina>
-    );
+    )
 }
