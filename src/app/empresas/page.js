@@ -5,6 +5,8 @@ import Link from "next/link"
 import { Table } from "react-bootstrap"
 import { FaPlusCircle } from "react-icons/fa";
 import Pagina from "../components/Pagina";
+import { MdDelete } from "react-icons/md";
+import { FaEdit } from "react-icons/fa";
 
 export default function Page() {
 
@@ -26,9 +28,13 @@ export default function Page() {
                     </tr>
                 </thead>
                 <tbody>
-                    {empresas.map(item => (
-                        <tr>
-                            <td>1</td>
+                    {empresas.map((item, i) => (
+                        <tr key={i}>
+                            <td>
+                                {i} - 
+                            <FaEdit className="text-primary"/>
+                            <MdDelete className="text-danger" />
+                            </td>
                             <td>{item.nome}</td>
                             <td>
                                 <a href={item.site} target="_blank">
