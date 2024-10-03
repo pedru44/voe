@@ -1,46 +1,52 @@
-"use client";
+'use client'
 
-import Link from "next/link";
-import { Table } from "react-bootstrap";
+import Link from "next/link"
+import { Table } from "react-bootstrap"
 import { FaPlusCircle } from "react-icons/fa";
+import { FaRegEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 import Pagina from "../components/Pagina";
 
-
 export default function Page() {
-  const passageiro = JSON.parse(localStorage.getItem("passageiro")) || [];
 
-  return (
-    <Pagina titulo="Passageiros">
-      <Link href="/passageiro/create" className="btn btn-primary mb-3 mt-3">
-        <FaPlusCircle /> Novo
-      </Link>
+    const passageiros = JSON.parse(localStorage.getItem('passageiros')) || []
 
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>nome</th>
-            <th>tipo_documento</th>
-            <th>documento</th>
-            <th>email</th>
-            <th>telefone</th>
-            <th>data_nascimento</th>
-          </tr>
-        </thead>
-        <tbody>
-          {passageiro.map((item) => (
-            <tr>
-              <td>1</td>
-              <td>{item.nome}</td>
-              <td>{item.tipo_documento}</td>
-              <td>{item.documento}</td>
-              <td>{item.email}</td>
-              <td>{item.telefone}</td>
-              <td>{item.data_nascimento}</td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-    </Pagina>
-  );
+    return (
+        <Pagina titulo="Passageiros">
+
+            <Link
+                href="/passageiro/create"
+                className="btn btn-primary mb-3 mt-3"
+            >
+                <FaPlusCircle /> Novo
+            </Link>
+
+            <Table striped bordered hover>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nome</th>
+                        <th>Logo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {passageiros.map((item, i) => (
+                        <tr key={i}>
+                            <td>
+                                {i} - 
+                                <FaRegEdit className="text-primary" />
+                                <MdDelete className="text-danger" />
+                            </td>
+                            <td>{item.nome}</td>
+                            <td>
+                                <a href={item.site} target="_blank">
+                                    <img src={item.logo} width={100} />
+                                </a>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </Table>
+        </Pagina>
+    )
 }

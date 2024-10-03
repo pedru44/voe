@@ -16,7 +16,7 @@ export default function Page() {
 
     function salvar(dados){
         const empresas = JSON.parse(localStorage.getItem('empresas')) || []
-
+        
         dados.id = v4()
         empresas.push(dados)
         localStorage.setItem('empresas', JSON.stringify(empresas))
