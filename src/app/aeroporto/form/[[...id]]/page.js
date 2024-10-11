@@ -37,16 +37,17 @@ export default function Page({ params }) {
     }, [])
 
     function salvar(dados) {
-
         if (aeroporto.id) {
-            Object.assign(aeroporto, dados)
+            const index = aeroportos.findIndex(item => item.id === aeroporto.id);
+            aeroportos[index] = dados;
         } else {
-            dados.id = v4()
-            aeroporto.push(dados)
+            dados.id = v4();
+            aeroportos.push(dados);
         }
 
-        localStorage.setItem('aeroporto', JSON.stringify(aeroporto))
-        return route.push('/aeroporto')
+        localStorage.setItem('aeroportos', JSON.stringify(aeroportos));
+
+        route.push('/aeroporto');
     }
 
     return (
