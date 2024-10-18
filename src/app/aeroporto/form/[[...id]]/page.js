@@ -2,6 +2,7 @@
 
 import Pagina from "@/app/components/Pagina";
 import apiLocalidade from "@/app/services/apiLocalidade";
+import AeroportoValidator from "@/validators/AeroportoValidator";  // Import do Validator
 import { Formik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -55,12 +56,15 @@ export default function Page({ params }) {
 
             <Formik
                 initialValues={aeroporto}
+                validationSchema={AeroportoValidator}  // Adicionado Validator
                 onSubmit={values => salvar(values)}
             >
                 {({
                     values,
                     handleChange,
                     handleSubmit,
+                    errors,           // Adicionado para exibir erros
+                    touched,          // Adicionado para verificar se o campo foi tocado
                 }) => {
 
                     useEffect(() => {
@@ -75,7 +79,7 @@ export default function Page({ params }) {
 
                     return (
 
-                        <Form>
+                        <Form noValidate onSubmit={handleSubmit}> {/* Adicionando o noValidate para ignorar validação nativa */}
                             <Form.Group className="mb-3" controlId="nome">
                                 <Form.Label>Nome</Form.Label>
                                 <Form.Control
@@ -83,7 +87,9 @@ export default function Page({ params }) {
                                     name="nome"
                                     value={values.nome}
                                     onChange={handleChange('nome')}
+                                    isInvalid={touched.nome && errors.nome} // Adicionado para validação
                                 />
+                                <Form.Control.Feedback type="invalid">{errors.nome}</Form.Control.Feedback>  {/* Exibir erro */}
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="sigla">
                                 <Form.Label>Sigla</Form.Label>
@@ -92,7 +98,9 @@ export default function Page({ params }) {
                                     name="sigla"
                                     value={values.sigla}
                                     onChange={handleChange('sigla')}
+                                    isInvalid={touched.sigla && errors.sigla} // Adicionado para validação
                                 />
+                                <Form.Control.Feedback type="invalid">{errors.sigla}</Form.Control.Feedback> {/* Exibir erro */}
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="pais">
                                 <Form.Label>País</Form.Label>
@@ -100,6 +108,7 @@ export default function Page({ params }) {
                                     name="pais"
                                     value={values.pais}
                                     onChange={handleChange('pais')}
+                                    isInvalid={touched.pais && errors.pais}  // Adicionado para validação
                                 >
                                     <option value=''>Selecione</option>
                                     {paises.map(item => (
@@ -108,6 +117,7 @@ export default function Page({ params }) {
                                         </option>
                                     ))}
                                 </Form.Select>
+                                <Form.Control.Feedback type="invalid">{errors.pais}</Form.Control.Feedback> {/* Exibir erro */}
                             </Form.Group>
                             {camposBrasil &&
                                 <>
@@ -117,6 +127,7 @@ export default function Page({ params }) {
                                             name="uf"
                                             value={values.uf}
                                             onChange={handleChange('uf')}
+                                            isInvalid={touched.uf && errors.uf} // Adicionado para validação
                                         >
                                             <option value=''>Selecione</option>
                                             {ufs.map(item => (
@@ -125,6 +136,7 @@ export default function Page({ params }) {
                                                 </option>
                                             ))}
                                         </Form.Select>
+                                        <Form.Control.Feedback type="invalid">{errors.uf}</Form.Control.Feedback> {/* Exibir erro */}
                                     </Form.Group>
                                     <Form.Group className="mb-3" controlId="cidade">
                                         <Form.Label>Cidade</Form.Label>
@@ -132,6 +144,7 @@ export default function Page({ params }) {
                                             name="cidade"
                                             value={values.cidade}
                                             onChange={handleChange('cidade')}
+                                            isInvalid={touched.cidade && errors.cidade}  // Adicionado para validação
                                         >
                                             <option value=''>Selecione</option>
                                             {cidades.map(item => (
@@ -140,11 +153,12 @@ export default function Page({ params }) {
                                                 </option>
                                             ))}
                                         </Form.Select>
+                                        <Form.Control.Feedback type="invalid">{errors.cidade}</Form.Control.Feedback> {/* Exibir erro */}
                                     </Form.Group>
                                 </>
                             }
                             <div className="text-center">
-                                <Button onClick={handleSubmit} variant="success">
+                                <Button type="submit" variant="success">
                                     <FaCheck /> Salvar
                                 </Button>
                                 <Link
