@@ -1,13 +1,16 @@
 import * as Yup from 'yup';
- 
- const  PassagemValidator = Yup.object().shape({
-   nome: Yup.string()
-     .min(3, 'O minimo de caracteres é 3')
-     .max(10, 'O minimo de caracteres é 10')
-     .required('Campo obrigatorio'),
-   logo: Yup.string()
-    .min(2, 'O mínino de caracteres é 2').required('Campo obrigatorio'),
-   site: Yup.string().required('Campo obrigatorio'),
- });
- 
- export default PassagemValidator
+
+const PassagemValidator = Yup.object().shape({
+  voo_id: Yup.string()
+    .required('ID do Voo é obrigatório'),
+  passageiro_id: Yup.string()
+    .required('ID do Passageiro é obrigatório'),
+  assento: Yup.string()
+    .required('Assento é obrigatório'),
+  preco: Yup.number()
+    .required('Preço é obrigatório')
+    .positive('O preço deve ser um número positivo')
+    .min(0, 'O preço não pode ser negativo'),
+});
+
+export default PassagemValidator;

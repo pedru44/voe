@@ -1,6 +1,7 @@
-'use client'
+'use client';
 
 import Pagina from "@/app/components/Pagina";
+import PassagemValidator from "@/validators/PassagemValidator";
 import { Formik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -18,7 +19,8 @@ export default function Page({ params }) {
 
   function salvar(dados) {
     if (passagem.id) {
-      Object.assign(passagem, dados);
+      const index = passagens.findIndex(item => item.id == passagem.id);
+      passagens[index] = { ...passagens[index], ...dados }; 
     } else {
       dados.id = v4();
       passagens.push(dados);
@@ -30,8 +32,12 @@ export default function Page({ params }) {
 
   return (
     <Pagina titulo="Passagem">
-      <Formik initialValues={passagem} onSubmit={(values) => salvar(values)}>
-        {({ values, handleChange, handleSubmit }) => (
+      <Formik
+        initialValues={passagem}
+        validationSchema={PassagemValidator} 
+        onSubmit={(values) => salvar(values)}
+      >
+        {({ values, handleChange, handleSubmit, errors }) => (
           <Form>
             <Form.Group className="mb-3" controlId="voo_id">
               <Form.Label>ID do Voo</Form.Label>
@@ -40,7 +46,11 @@ export default function Page({ params }) {
                 name="voo_id"
                 value={values.voo_id}
                 onChange={handleChange("voo_id")}
+                isInvalid={!!errors.voo_id} 
               />
+              <Form.Control.Feedback type="invalid">
+                {errors.voo_id}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="passageiro_id">
@@ -50,7 +60,11 @@ export default function Page({ params }) {
                 name="passageiro_id"
                 value={values.passageiro_id}
                 onChange={handleChange("passageiro_id")}
+                isInvalid={!!errors.passageiro_id} 
               />
+              <Form.Control.Feedback type="invalid">
+                {errors.passageiro_id}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="assento">
@@ -60,7 +74,11 @@ export default function Page({ params }) {
                 name="assento"
                 value={values.assento}
                 onChange={handleChange("assento")}
+                isInvalid={!!errors.assento} 
               />
+              <Form.Control.Feedback type="invalid">
+                {errors.assento}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="preco">
@@ -70,7 +88,11 @@ export default function Page({ params }) {
                 name="preco"
                 value={values.preco}
                 onChange={handleChange("preco")}
+                isInvalid={!!errors.preco} 
               />
+              <Form.Control.Feedback type="invalid">
+                {errors.preco}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <div className="text-center">

@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { Table } from "react-bootstrap";
 import { FaPlusCircle } from "react-icons/fa";
+import Pagina from "../components/Pagina";
 import { AiOutlineDelete } from "react-icons/ai";
 import { FaRegEdit } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import Pagina from "../components/Pagina";
 
 export default function Page() {
   const [passageiros, setPassageiros] = useState([]);
@@ -37,6 +37,7 @@ export default function Page() {
             <th>Documento</th>
             <th>Email</th>
             <th>Telefone</th>
+            <th>nascimento</th>
           </tr>
         </thead>
         <tbody>
@@ -57,6 +58,7 @@ export default function Page() {
               <td>{item.documento}</td>
               <td>{item.email}</td>
               <td>{item.telefone}</td>
+              <td>{item.data_nascimento}</td>
             </tr>
           ))}
         </tbody>

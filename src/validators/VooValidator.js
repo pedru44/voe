@@ -1,13 +1,21 @@
-import * as Yup from 'yup';
- 
- const VooValidator = Yup.object().shape({
-   nome: Yup.string()
-     .min(3, 'O minimo de caracteres é 3')
-     .max(10, 'O minimo de caracteres é 10')
-     .required('Campo obrigatorio'),
-   logo: Yup.string()
-    .min(2, 'O mínino de caracteres é 2').required('Campo obrigatorio'),
-   site: Yup.string().required('Campo obrigatorio'),
- });
- 
- export default VooValidator
+import * as Yup from "yup";
+
+const VooValidator = Yup.object().shape({
+    identificador: Yup.string()
+        .required('Campo obrigatório'),
+    data_checkin: Yup.date()
+        .required('Campo obrigatório'),
+    data_embarque: Yup.date()
+        .required('Campo obrigatório'),
+    id_origem: Yup.number()
+        .required('Campo obrigatório'),
+    id_destino: Yup.number()
+        .required('Campo obrigatório'),
+    empresa_id: Yup.number()
+        .required('Campo obrigatório'),
+    preco: Yup.number()
+        .required('Campo obrigatório')
+        .min(0, 'O preço deve ser positivo'),
+});
+
+export default VooValidator;
