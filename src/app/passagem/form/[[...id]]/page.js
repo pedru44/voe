@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { Button, Form } from "react-bootstrap";
 import { FaCheck } from "react-icons/fa";
 import { MdOutlineArrowBack } from "react-icons/md";
+import { mask } from "remask";
 import { v4 } from "uuid";
 
 export default function Page({ params }) {
@@ -37,7 +38,7 @@ export default function Page({ params }) {
         validationSchema={PassagemValidator} 
         onSubmit={(values) => salvar(values)}
       >
-        {({ values, handleChange, handleSubmit, errors }) => (
+        {({ values, handleChange, handleSubmit, errors, setFieldValue }) => (
           <Form>
             <Form.Group className="mb-3" controlId="voo_id">
               <Form.Label>ID do Voo</Form.Label>
@@ -73,7 +74,9 @@ export default function Page({ params }) {
                 type="text"
                 name="assento"
                 value={values.assento}
-                onChange={handleChange("assento")}
+                onChange={(value)=>{
+                  setFieldValue('assento', mask(value.target.value, '999'))
+              }}
                 isInvalid={!!errors.assento} 
               />
               <Form.Control.Feedback type="invalid">
@@ -87,7 +90,7 @@ export default function Page({ params }) {
                 type="number"
                 name="preco"
                 value={values.preco}
-                onChange={handleChange("preco")}
+                onChange={handleChange("preco")} 
                 isInvalid={!!errors.preco} 
               />
               <Form.Control.Feedback type="invalid">

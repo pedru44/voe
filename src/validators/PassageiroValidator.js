@@ -13,7 +13,7 @@ const PassageiroValidator = Yup.object().shape({
         .required('Campo obrigatório'),
     telefone: Yup.string()
         .required('Campo obrigatório'),
-    data_nascimento: Yup.date()
+    data_nascimento: Yup.string()
         .required('Campo obrigatório'),
 });
 

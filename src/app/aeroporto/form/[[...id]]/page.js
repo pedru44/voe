@@ -10,32 +10,32 @@ import { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { FaCheck } from "react-icons/fa";
 import { MdOutlineArrowBack } from "react-icons/md";
+import { mask } from "remask";
 import { v4 } from "uuid";
 
 export default function Page({ params }) {
 
-    const route = useRouter()
+    const route = useRouter();
 
-    const aeroportos = JSON.parse(localStorage.getItem('aeroportos')) || []
-    const dados = aeroportos.find(item => item.id == params.id)
-    const aeroporto = dados || { nome: '', sigla: '', pais: 'Brasil', uf: '', cidade: '' }
+    const aeroportos = JSON.parse(localStorage.getItem('aeroportos')) || [];
+    const dados = aeroportos.find(item => item.id == params.id);
+    const aeroporto = dados || { nome: '', sigla: '', pais: 'Brasil', uf: '', cidade: '' };
 
-    const [paises, setPaises] = useState([])
-    const [ufs, setUfs] = useState([])
-    const [cidades, setCidades] = useState([])
-    const [camposBrasil, setCamposBrasil] = useState(false)
+    const [paises, setPaises] = useState([]);
+    const [ufs, setUfs] = useState([]);
+    const [cidades, setCidades] = useState([]);
+    const [camposBrasil, setCamposBrasil] = useState(false);
 
     useEffect(() => {
-
         apiLocalidade.get(`paises`).then(resultado => {
-            setPaises(resultado.data)
-        })
+            setPaises(resultado.data);
+        });
 
         apiLocalidade.get(`estados?orderBy=nome`).then(resultado => {
-            setUfs(resultado.data)
-        })
+            setUfs(resultado.data);
+        });
 
-    }, [])
+    }, []);
 
     function salvar(dados) {
         if (aeroporto.id) {
@@ -47,13 +47,11 @@ export default function Page({ params }) {
         }
 
         localStorage.setItem('aeroportos', JSON.stringify(aeroportos));
-
         route.push('/aeroporto');
     }
 
     return (
         <Pagina titulo="Aeroporto">
-
             <Formik
                 initialValues={aeroporto}
                 validationSchema={AeroportoValidator}  
@@ -63,19 +61,22 @@ export default function Page({ params }) {
                     values,
                     handleChange,
                     handleSubmit,
+                    setFieldValue,
                     errors,          
                     touched,          
                 }) => {
 
                     useEffect(() => {
-                        setCamposBrasil(values.pais == 'Brasil')
-                    }, [values.pais])
+                        setCamposBrasil(values.pais === 'Brasil');
+                    }, [values.pais]);
 
                     useEffect(() => {
-                        apiLocalidade.get(`estados/${values.uf}/municipios`).then(resultado => {
-                            setCidades(resultado.data)
-                        })
-                    }, [values.uf])
+                        if (values.uf) {
+                            apiLocalidade.get(`estados/${values.uf}/municipios`).then(resultado => {
+                                setCidades(resultado.data);
+                            });
+                        }
+                    }, [values.uf]);
 
                     return (
 
@@ -97,7 +98,9 @@ export default function Page({ params }) {
                                     type="text"
                                     name="sigla"
                                     value={values.sigla}
-                                    onChange={handleChange('sigla')}
+                                    onChange={(value)=>{
+                                        setFieldValue('sigla', mask(value.target.value, 'AAA'))
+                                    }}
                                     isInvalid={touched.sigla && errors.sigla} 
                                 />
                                 <Form.Control.Feedback type="invalid">{errors.sigla}</Form.Control.Feedback> 

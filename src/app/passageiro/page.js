@@ -37,7 +37,7 @@ export default function Page() {
             <th>Documento</th>
             <th>Email</th>
             <th>Telefone</th>
-            <th>nascimento</th>
+            <th>Nascimento</th>
           </tr>
         </thead>
         <tbody>
