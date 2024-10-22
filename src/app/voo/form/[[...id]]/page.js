@@ -148,7 +148,7 @@ export default function Page({ params }) {
                                 <FaCheck /> Salvar
                             </Button>
                             <Link
-                                href="/voo"  // URL do botão de voltar
+                                href="/voo"  
                                 className="btn btn-danger ms-2"
                             >
                                 <MdOutlineArrowBack /> Voltar

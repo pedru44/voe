@@ -75,7 +75,9 @@ export default function Page({ params }) {
                                 type="text"
                                 name="documento"
                                 value={values.documento}
-                                onChange={handleChange('documento')}
+                                onChange={(value)=>{
+                                    setFieldValue('documento', mask(value.target.value, '999.999.999-99'))
+                                }}
                                 isInvalid={!!errors.documento}
                             />
                             <Form.Control.Feedback type="invalid">
